@@ -1,4 +1,4 @@
-import { bindForm, checkErrors } from "./form.mjs";
+import { bindForm, checkErrors, showCancel } from "./form.mjs";
 
 import { createActivo,createAsociacion,createPropietario, createUbicacion } from './data.mjs';
 
@@ -15,7 +15,7 @@ addButton.addEventListener('click', () => {
 });
 
 cancelButton.addEventListener('click', () => {
-    dialog.close();
+    showCancel(dialog);
 });
 
 const form = dialog.querySelector('form');

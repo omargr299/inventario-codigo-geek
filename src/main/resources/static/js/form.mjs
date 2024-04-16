@@ -9,13 +9,36 @@ function isAlpha(str) {
 }
 
 function check(form,id,checkFunc,errorMessage='error'){
-    const input = document.querySelector(`#${id}`);
+    const input = form.querySelector(`#${id}`);
+    console.log(id, input);
     input.addEventListener('input', (event) => {
         const error = form.querySelector(`#error-${id}`)
         error.classList.toggle('d-none', checkFunc(event.target.value));
         error.textContent = checkFunc(event.target.value) ? '' : errorMessage;
     });
 }
+
+const cancelDialog = document.querySelector('#cancel-confirm');
+export function showCancel(dialog){
+    cancelDialog.showModal();
+
+    cancelDialog.querySelector('#seguir').addEventListener('click', () => {
+        cancelDialog.close();
+    });
+
+    cancelDialog.querySelector('#aceptar').addEventListener('click', () => {
+        cancelDialog.close();
+        const inputs = Array.from(dialog.querySelectorAll('input, select, textarea'));
+        inputs.forEach(input => {
+            input.value = '';
+        });
+        const errors = Array.from(dialog.querySelectorAll('.error'));
+        errors.forEach(error => error.classList.add('d-none'));
+        dialog.close();
+    });
+}
+
+
 
 export function checkErrors(dialog){
     const errors = Array.from(dialog.querySelectorAll('.error'));

@@ -1,5 +1,5 @@
 import {openPropietierDialog} from './viewPropietier.mjs'
-import { bindForm, checkErrors } from "./form.mjs";
+import { bindForm, checkErrors, showCancel } from "./form.mjs";
 import { deleteActivo, editActivo, getActivo, getPropAssociation } from './data.mjs';
 
 await bindForm("#editForm");
@@ -29,7 +29,6 @@ activos.forEach(activo => {
     editButton.addEventListener('click', async function() {
         const id = editButton.getAttribute('data-id');
         const activo = await getActivo(id);
-        dialog.querySelector('#IdActivo').value = activo.idActivo;
         dialog.querySelector('#nombre').value = activo.nombre;
         dialog.querySelector('#total').value = activo.total;
         dialog.querySelector('#descripcion').value = activo.descripcion;
@@ -37,11 +36,11 @@ activos.forEach(activo => {
         dialog.querySelector('#fechaAdqui').value = activo.fechaAdqui.substring(0, 10);
         dialog.querySelector('#ubicacion').value = activo.ubicacion.idUbicacion;
         dialog.querySelector('#status').value = activo.status;
-        dialog.querySelector('#fechaRevisado').value = activo.fechaRevisado.substring(0, 10);
      
         if(activo.ubicacion.idUbicacion >= 3) {
             document.querySelector('#editForm #propietier-container').classList.remove('d-none');
             const propietario = await getPropAssociation(activo.idActivo);
+            console.log(propietario);
             dialog.querySelector('#IdPropietario').value = propietario.idPropietario;
             dialog.querySelector('#nombrePropietario').value = propietario.nombre;
             dialog.querySelector('#apellidoPaterno').value = propietario.apellidoPaterno;
@@ -55,6 +54,7 @@ activos.forEach(activo => {
     });
 
     dialog.querySelector('#cancel').addEventListener('click', () => {
+        showCancel(dialog);
         dialog.close();
     });
 
