@@ -83,6 +83,10 @@ public class MainController {
             System.err.println(e.getMessage());
             return "redirect:/?error=1";
         }
+        catch(IllegalArgumentException e){
+            System.err.println(e.getMessage());
+            return "redirect:/?error=5";
+        }
         
         try{
             Page<Activo> activos = service.getAll(queryLike,fechaAdquiStart,fechaAdquiEnd,ubicacionLike,StatusLike,page);

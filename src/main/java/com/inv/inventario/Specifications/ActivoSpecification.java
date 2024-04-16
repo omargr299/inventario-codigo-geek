@@ -21,6 +21,10 @@ public class ActivoSpecification {
 
 
     public static Specification<Activo> queryLike(String _query) {
+        
+    	if (_query.equals("%")) {
+            throw new IllegalArgumentException("Caracter no valido");
+        }
         return (root, query, builder) -> {
             // Predicate idPredicate = builder.equal(root.get("IdActivo"), Integer.parseInt(_query) );
             Predicate nombrePredicate = builder.like(root.get("nombre"), "%" + _query + "%");

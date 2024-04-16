@@ -74,8 +74,7 @@ public class ActivesController {
 
         System.out.println("Activo: "+activo.getStatus());
         try{
-            activo = activoService.create(activo);
-            
+            activo = activoService.create(activo);   
         }
         catch(DataIntegrityViolationException e){
             System.out.println(e);

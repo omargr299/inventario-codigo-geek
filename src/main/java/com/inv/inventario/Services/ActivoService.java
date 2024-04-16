@@ -28,9 +28,6 @@ public class ActivoService {
     
     
     Specification<Activo> getFilters(String queryLike,String fechaAdquiStart,String fechaAdquiEnd,int ubicacionLike, String statusLike){
-    	
-    	queryLike = queryLike.replace("%", "\\%");
-    	
     	return Specification
             .where(StringUtils.isEmptyOrWhitespaceOnly(queryLike) ? null : ActivoSpecification.queryLike(queryLike))
             .and(
