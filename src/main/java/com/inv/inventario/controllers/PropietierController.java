@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.inv.inventario.Dtos.PropietarioCreateDto;
 import com.inv.inventario.Models.Propietario;
 import com.inv.inventario.Services.PropietarioService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/propietario")
@@ -22,6 +28,12 @@ public class PropietierController {
 
     @Autowired 
     private PropietarioService propietarioService;
+    
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public String errorType(HttpServletRequest req, Exception ex){
+    	System.out.println("eerror");
+    	return ex.getMessage();
+    }
 
     @GetMapping("/{id}")
     public Propietario getById(@PathVariable int id ){
@@ -38,8 +50,13 @@ public class PropietierController {
     }
 
     @PostMapping(value="",consumes = "*/*", produces = "application/json")
-    public Propietario create(@RequestBody Propietario propietario){
-
+    public Propietario create(@RequestBody @Valid PropietarioCreateDto newPropietario){
+    	
+    	Propietario propietario = new Propietario();
+    	propietario.setIdPropietario(newPropietario.getIdPropietario());
+    	propietario.setApellidoPaterno(newPropietario.getApellidoPaterno());
+    	propietario.setApellidoMaterno(newPropietario.getApellidoMaterno());
+    	
         Optional<Propietario> find = null;
         
         try{

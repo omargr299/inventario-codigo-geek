@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,7 @@ import com.inv.inventario.Services.ActivoService;
 import com.inv.inventario.Services.AssociationService;
 import com.inv.inventario.Services.UbicacionService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController()
@@ -43,8 +45,14 @@ public class ActivesController {
     private ActivoService activoService;
 
     @Autowired UbicacionService ubicacionService;
-
     
+    @ResponseStatus(value=HttpStatus.CONFLICT,
+            reason="Data integrity violation")
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public String errorType(HttpServletRequest req, Exception ex){
+    	System.out.println("eerror");
+    	return ex.getMessage();
+    }
 
     @GetMapping()
     public List<Activo> getAll() {
@@ -53,7 +61,7 @@ public class ActivesController {
 
     @PostMapping(value = "", consumes = "*/*", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Activo create(@RequestBody ActivoCreateDto newActivo) {
+    public Activo create(@RequestBody @Valid ActivoCreateDto newActivo) {
         Ubicacion ubicacion = ubicacionService.getById(newActivo.getUbicacion());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         
@@ -97,7 +105,7 @@ public class ActivesController {
     }
 
     @PutMapping(value = "/{id}", consumes = "*/*", produces = "application/json")
-    public String update(@PathVariable int id, @RequestBody ActivoEditDto activo) {
+    public String update(@PathVariable int id, @RequestBody @Valid ActivoEditDto activo) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         Activo newActivo = activoService.getById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activo no encontrado"));

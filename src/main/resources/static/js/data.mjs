@@ -77,7 +77,17 @@ export async function createActivo(formData) {
         else if(field === "nombre") {
             document.querySelector('#error-nombre').classList.remove('d-none');
         }
-        errorToast(message);
+        
+        if(data?.error==="Conflict"){
+			console.log(data?.errors);
+			data?.errors?.forEach((error)=>{
+				errorToast(error?.defaultMessage);
+			})
+			
+		}
+		else{			
+        	errorToast(message);
+		}
     }
 
     return res;
@@ -98,7 +108,17 @@ export async function createPropietario(formData) {
         succesToast("Propietario agregado correctamente");
     } else {
         const data = await res.json()
-        errorToast(data.message);
+		const [message,field] = data.message.split(':');
+         if(data?.error==="Conflict"){
+			console.log(data?.errors);
+			data?.errors?.forEach((error)=>{
+				errorToast(error?.defaultMessage);
+			})
+			
+		}
+		else{			
+        	errorToast(message);
+		}
     }
 
     return res;
@@ -118,7 +138,18 @@ export async function createUbicacion(formData) {
 
     if (!res.ok) {
         const data = await res.json()
-        errorToast(data.message);
+		const [message,field] = data.message.split(':');
+		console.log(data?.errors)
+         if(data?.error==="Conflict"){
+			console.log(data?.errors);
+			data?.errors?.forEach((error)=>{
+				errorToast(error?.defaultMessage);
+			})
+			
+		}
+		else{			
+        	errorToast(message);
+		}
     }           
     return res;
 }

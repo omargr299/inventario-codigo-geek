@@ -4,12 +4,14 @@ import com.inv.inventario.Enums.StatusValues;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 
 public class ActivoCreateDto {
 
-
+	@Pattern(regexp = "[a-z0-9\\s]+",message="El nombre del activo debe ser unicamente letras minusculas sin acentos o numeros")
     private String nombre;
-
+    @Positive(message="el total debe ser mayor que cero")
     private float total;
     private String fechaAdqui;
     private StatusValues status;

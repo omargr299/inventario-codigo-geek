@@ -10,7 +10,6 @@ function isAlpha(str) {
 
 function check(form,id,checkFunc,errorMessage='error'){
     const input = form.querySelector(`#${id}`);
-    console.log(id, input);
     input.addEventListener('input', (event) => {
         const error = form.querySelector(`#error-${id}`)
         error.classList.toggle('d-none', checkFunc(event.target.value));
