@@ -1,3 +1,5 @@
+import { errorToast } from "./toast.mjs";
+
 function isAlphaNumeric(str) {
     return !(/[^a-z0-9\s]+/.test(str));
 }
@@ -13,6 +15,15 @@ function check(form,id,checkFunc,errorMessage='error'){
         error.classList.toggle('d-none', checkFunc(event.target.value));
         error.textContent = checkFunc(event.target.value) ? '' : errorMessage;
     });
+}
+
+export function checkErrors(dialog){
+    const errors = Array.from(dialog.querySelectorAll('.error'));
+    const no_errors = errors.every(error => error.classList.contains('d-none'));
+    if (!no_errors){
+        errorToast('Por favor, corrija los errores en el formulario');
+    }
+    return !no_errors;
 }
 
 export async function bindForm(query){
