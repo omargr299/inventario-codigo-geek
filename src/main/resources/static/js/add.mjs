@@ -1,6 +1,7 @@
 import { bindForm } from "./form.mjs";
 
 import { createActivo,createAsociacion,createPropietario, createUbicacion } from './data.mjs';
+import { errorToast } from "./toast.mjs";
 
 
 await bindForm("#addForm");
@@ -21,6 +22,14 @@ cancelButton.addEventListener('click', () => {
 const form = dialog.querySelector('form');
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
+
+    const errors = Array.from(dialog.querySelectorAll('.error'));
+    const res = errors.every(error => error.classList.contains('d-none'));
+    if (!res){
+        errorToast('Por favor, corrija los errores en el formulario');
+        return
+    }
+
     console.log('Form submitted');
     const formData = new FormData(form);
 
@@ -37,8 +46,4 @@ form.addEventListener('submit', async (event) => {
         console.log('sin propietario');
         await createActivo(formData);
     }
-    
-
-
-
 });

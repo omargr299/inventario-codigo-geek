@@ -1,4 +1,19 @@
+function isAlphaNumeric(str) {
+    return !(/[^a-z0-9\s]+/.test(str));
+}
 
+function isAlpha(str) {
+    return !(/[^a-z\s]+/.test(str));
+}
+
+function check(form,id,checkFunc,errorMessage='error'){
+    const input = document.querySelector(`#${id}`);
+    input.addEventListener('input', (event) => {
+        const error = form.querySelector(`#error-${id}`)
+        error.classList.toggle('d-none', checkFunc(event.target.value));
+        error.textContent = checkFunc(event.target.value) ? '' : errorMessage;
+    });
+}
 
 export async function bindForm(query){
     const dialog = document.querySelector(query);
@@ -6,6 +21,8 @@ export async function bindForm(query){
     const formText = await res.text()
     dialog.innerHTML += formText
     const form = document.querySelector(query+' form');
+	
+    check(form,'nombre',isAlphaNumeric,'El nombre solo puede contener letras minisculas, sin acentos o numeros');
 
     const ubicacion = form.querySelector('#ubicacion');
     const propietierContainer = form.querySelector('#propietier-container');
@@ -13,9 +30,23 @@ export async function bindForm(query){
     ubicacion.addEventListener('change', (event) => {
         if (event.target.value === '3') {
             propietierContainer.classList.remove('d-none');
+            check(form,'nombrePropietario',isAlpha,'El nombre del propietario solo puede contener letras minisculas, sin acento');
+            check(form,'apellidoPaterno',isAlpha,'El apellido paterno solo puede contener letras minisculas, sin acento');
+            check(form,'apellidoMaterno',isAlpha,'El apellido materno solo puede contener letras minisculas, sin acento');
+            check(form,'calle',isAlphaNumeric,'La calle solo puede contener letras minisculas, sin acentos o numeros');
+            check(form,'colonia',isAlphaNumeric,'La colonia solo puede contener letras minisculas, sin acentos o numeros');
+            check(form,'municipio',isAlpha,'El municipio solo puede contener letras minisculas, sin acento');
+            check(form,'estado',isAlpha,'El estado solo puede contener letras minisculas, sin acentos');
         }
         else {
             propietierContainer.classList.add('d-none');
+            form.querySelector('#nombrePropietario').removeEventListener('input',check);
+            form.querySelector('#apellidoPaterno').removeEventListener('input',check);
+            form.querySelector('#apellidoMaterno').removeEventListener('input',check);
+            form.querySelector('#calle').removeEventListener('input',check);
+            form.querySelector('#colonia').removeEventListener('input',check);
+            form.querySelector('#municipio').removeEventListener('input',check);
+            form.querySelector('#estado').removeEventListener('input',check);
         }
     });
 
