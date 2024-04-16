@@ -6,7 +6,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 
 public class ActivoCreateDto {
-    private Integer idActivo;
+
 
     private String nombre;
 
@@ -16,15 +16,15 @@ public class ActivoCreateDto {
     private String detalle;
     private String descripcion;
     private int ubicacion;
-    private String fechaRevisado;
+
 
     public ActivoCreateDto() {
     }
 
 
-    public ActivoCreateDto(int idActivo, String nombre, float total, String fechaAdqui, StatusValues status, String detalle,
-        String descripcion, int ubicacion, String fechaRevisado) {
-        this.idActivo = idActivo;
+    public ActivoCreateDto( String nombre, float total, String fechaAdqui, StatusValues status, String detalle,
+        String descripcion, int ubicacion) {
+    
         this.nombre = nombre;
         this.total = total;
         this.fechaAdqui = fechaAdqui;
@@ -32,18 +32,13 @@ public class ActivoCreateDto {
         this.detalle = detalle;
         this.descripcion = descripcion;
         this.ubicacion = ubicacion;
-        this.fechaRevisado = fechaRevisado;
+  
     }
 
     
 
 
-    public int getIdActivo() {
-        return this.idActivo;
-    }
-    public void setIdActivo(int idActivo) {
-        this.idActivo = idActivo;
-    }
+
     public String getNombre() {
         return nombre;
     }
@@ -86,12 +81,7 @@ public class ActivoCreateDto {
     public void setUbicacion(int ubicacion) {
         this.ubicacion = ubicacion;
     }
-    public String getFechaRevisado() {
-        return fechaRevisado;
-    }
-    public void setFechaRevisado(String fechaRevisado) {
-        this.fechaRevisado = fechaRevisado;
-    }
+
 
     
 }

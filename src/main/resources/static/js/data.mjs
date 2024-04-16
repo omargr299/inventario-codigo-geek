@@ -2,7 +2,6 @@ import { errorToast, succesToast } from "./toast.mjs"
 
 function formatActivo(formData,ubicacion) {
     return {
-        idActivo: Number(formData.get('IdActivo')),
         nombre: formData.get('nombre'),
         total: Number(formData.get('total')),
         detalle: formData.get('detalle')!=="" ? formData.get('detalle') : null,
@@ -10,7 +9,6 @@ function formatActivo(formData,ubicacion) {
         fechaAdqui: formData.get('fechaAdqui'),
         ubicacion: ubicacion ?? formData.get('ubicacion'),
         status: formData.get('status'),
-        fechaRevisado: formData.get('fechaRevisado'),
     }
 }
 
@@ -125,12 +123,15 @@ export async function createUbicacion(formData) {
     return res;
 }
 
-export async function createAsociacion(formData) {
-    const asociacion = formatAsociacion(formData);
+export async function createAsociacion(activo,propietario) {
+
 
     const res = await fetch(window.location.pathname + 'asociacion', {
         method: 'POST',
-        body: JSON.stringify(asociacion),
+        body: JSON.stringify({
+			idActivo: activo.idActivo,
+			idPropieatrio: propietario.idPropietario
+		}),
         headers: {
             'Content-Type': 'application/json'
         }

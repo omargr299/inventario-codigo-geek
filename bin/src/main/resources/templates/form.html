@@ -1,0 +1,121 @@
+<form  class="form">
+    <div class="d-flex gap-3">
+        <label class="form-label">
+            Id
+            <input value="30" class="form-control" type="text" id="IdActivo" name="IdActivo" required>
+            <span class="error d-none" id="error-id">EL activo ya existe</span>
+        </label>
+        <label class="form-label">
+            Nombre(s)
+            <input value="Laptop HP" class="form-control" type="text" id="nombre" name="nombre" required>
+            <span class="error d-none" id="error-nombre">Debes de ingresar un nombre</span>
+        </label>
+    </div>
+    <label class="form-label">
+        Valor total
+        <input value="10000" class="form-control" type="number" id="total" name="total" required>
+        <span class="error d-none" id="error-total">El valor debe ser un numero y mayor a cero</span>
+    </label>
+    <label class="form-label">
+        Detalle
+        <select  class="form-control" type="text" id="detalle" name="detalle">
+            <option value="" ></option>
+            <option value="buen estado" selected>buen estado</option>
+            <option value="mal estado">mal estado</option>
+        </select>
+        <!-- <input value="buen estado" class="form-control" type="text" id="detalle" name="detalle" > -->
+        <span class="error d-none" id="error-detalle">El valor de detalle debe ser un valor valido</span>
+    </label>
+    <label class="form-label">
+        Descripcion
+        <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Computadora modelo.." >computadora</textarea>
+        <span class="error d-none" id="error-descripcion">La descripcion debe ser</span>
+    </label>
+    <label class="form-label">
+        Fecha de adquisicion
+        <input value="2024-03-06" class="form-control" type="date" id="fechaAdqui" name="fechaAdqui" required>
+        <span class="error d-none" id="error-fechaAdqui">La fecha de adquisicion debe de tener un formato valido</span>
+    </label>
+    <div class="d-flex gap-3">
+        <label class="form-label">
+            Ubicación
+            <select  class="form-select" name="ubicacion" id="ubicacion">
+                <option value="" ></option>
+                <option value="1" >ESTADO DE MEXICO</option>
+                <option value="2">CDMX</option>
+                <option value="3" selected>USO REMOTO</option>
+            </select>
+            <span class="error d-none" id="error-ubicacion">Debes de seleccionar una ubicacion valida</span>
+        </label>
+        <label class="form-label">
+            Esatdo del activo
+            <select  class="form-select" name="status" id="status">
+                <option value="" ></option>
+                <option value="en_uso" selected>En uso</option>
+                <option value="descompuesto">Descompuesto</option>
+                <option value="almacenado">Almacenado</option>
+                <option value="no_encontrado">No Encontrado</option>
+            </select>
+            <span class="error d-none" id="error-status">Debes de seleccionar un esatdo valido</span>
+        </label>
+    </div>
+    <label class="form-label">
+        Fecha de revisado
+        <input value="2024-03-06" class="form-control" type="date" id="fechaRevisado" name="fechaRevisado" required>
+        <span class="error d-none" id="error-fechaRevisado">La fecha de revisado debe de tener un formato valido</span>
+    </label>
+
+    <formfield class="d-none" id="propietier-container">
+        <h3>Propietario del activo</h3>
+        <label class="form-label">
+            Id del propietario
+            <input value="5" class="form-control" type="text" id="IdPropietario" name="IdPropietario" >
+            <span class="error d-none" id="error-idPropietario">El ID del propietario no es valido</span>
+        </label>
+        <label class="form-label">
+            Nombre(s)
+            <input value="Omar" class="form-control" type="text" id="nombrePropietario" name="nombrePropietario" >
+            <span class="error d-none" id="error-nombrePropietario">El nombre propietario no debe de estar vacio</span>
+        </label>
+        <div>
+            <label class="form-label">
+                Apellido paterno
+                <input value="Gonzalez"  class="form-control" type="text" id="apellidoPaterno" name="apellidoPaterno" >
+            </label>
+            <label class="form-label">
+                Apellido materno
+                <input value="Rodriguez" class="form-control" type="text" id="apellidoMaterno" name="apellidoMaterno" >
+            </label>
+        </div>
+        <div>
+            <label class="form-label">
+                Calle
+                <input value="CALLE Z" class="form-control" type="text" id="calle" name="calle" >
+            </label>
+            <label class="form-label">
+                Numero
+                <input value="111" class="form-control" type="number" id="numero" name="numero" >
+            </label>
+            <label class="form-label">
+                Colonia
+                <input value="colonia" class="form-control" type="text" id="colonia" name="colonia" >
+            </label>
+        </div>
+        <div>
+            <label class="form-label">
+                Municipio
+                <input value="monclova" class="form-control" type="text" id="municipio" name="municipio" >
+            </label>
+            <label class="form-label">
+                Estado
+                <input value="coahuila" class="form-control" type="text" id="estado" name="estado" >
+            </label>
+            <label class="form-label">
+                Codigo postal
+                <input value="11111" class="form-control" type="number" id="cp" name="cp" >
+            </label>
+        </div>
+    </formfield>
+    <button class="btn btn-outline-danger" type="button" id="cancel">Cancelar</button>
+    <button class="btn btn-primary" type="submit">Agregar</button>
+</form>

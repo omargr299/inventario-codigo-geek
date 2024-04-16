@@ -22,12 +22,14 @@ export async function bindForm(query){
     const status = form.querySelector('#status');
 
     status.addEventListener('change', (event) => {
-        if (event.target.value === 'no encontrado') {
+        if (event.target.value === 'no_encontrado') {
             ubicacion.selectedIndex=0;
         }
         else if (event.target.value === 'almacenado') {
             ubicacion.selectedIndex=1;
         }
+        
+        ubicacion.disabled= event.target.value === 'no_encontrado';
     });
 
     const IdPropietario = form.querySelector('#IdPropietario');

@@ -2,6 +2,8 @@ package com.inv.inventario.controllers;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,25 +53,14 @@ public class ActivesController {
 
     @PostMapping(value = "", consumes = "*/*", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public String create(@RequestBody ActivoCreateDto newActivo) {
+    public Activo create(@RequestBody ActivoCreateDto newActivo) {
         Ubicacion ubicacion = ubicacionService.getById(newActivo.getUbicacion());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         
-        Optional<Activo> find_activo = null;
-        try{
-            find_activo = activoService.getById(newActivo.getIdActivo());
-            
-        }
-        catch(Exception e){
-            System.err.println(e);
-        }
-
-        if(find_activo!=null && !find_activo.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El activo ya existe:id");
-        } 
-        
+   
+        System.out.println(newActivo.getNombre());
         Activo activo = new Activo();
-        activo.setIdActivo(newActivo.getIdActivo());
+
         activo.setNombre(newActivo.getNombre());
         activo.setDescripcion(newActivo.getDescripcion());
         activo.setFechaAdqui(formatter.parse(newActivo.getFechaAdqui(),new ParsePosition(0)));
@@ -79,18 +70,19 @@ public class ActivesController {
         activo.setDetalle(newActivo.getDetalle());
         activo.setStatus(newActivo.getStatus().value());
         activo.setUbicacion(ubicacion);
-        activo.setFechaRevisado(formatter.parse(newActivo.getFechaRevisado(),new ParsePosition(0)));
+        activo.setFechaRevisado(new Date());
 
-        System.out.println("Activo: "+activo.getStatus()   );
+        System.out.println("Activo: "+activo.getStatus());
         try{
-            activoService.create(activo);
+            activo = activoService.create(activo);
+            
         }
         catch(DataIntegrityViolationException e){
             System.out.println(e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El activo ya existe:id");
         }
     
-        return "create an active";
+        return activo;
     }
 
     @GetMapping(value = "/{id}", consumes = "*/*", produces = "application/json")
@@ -109,16 +101,16 @@ public class ActivesController {
     public String update(@PathVariable int id, @RequestBody ActivoEditDto activo) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-        Activo act = activoService.getById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activo no encontrado"));
-        act.setNombre(activo.getNombre());
-        act.setDescripcion(activo.getDescripcion());
-        act.setFechaAdqui(formatter.parse(activo.getFechaAdqui(),new ParsePosition(0)));
-        act.setTotal(activo.getTotal());
-        act.setDetalle(activo.getDetalle());
-        act.setStatus(activo.getStatus());
-        act.setUbicacion(ubicacionService.getById(activo.getUbicacion()));
-        act.setFechaRevisado(formatter.parse(activo.getFechaRevisado(),new ParsePosition(0)));
-        activoService.update(act);
+        Activo newActivo = activoService.getById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Activo no encontrado"));
+        newActivo.setNombre(activo.getNombre());
+        newActivo.setDescripcion(activo.getDescripcion());
+        newActivo.setFechaAdqui(formatter.parse(activo.getFechaAdqui(),new ParsePosition(0)));
+        newActivo.setTotal(activo.getTotal());
+        newActivo.setDetalle(activo.getDetalle());
+        newActivo.setStatus(activo.getStatus());
+        newActivo.setUbicacion(ubicacionService.getById(activo.getUbicacion()));
+        newActivo.setFechaRevisado(new Date());        
+        activoService.update(newActivo);
         return "update an active";
     }
 

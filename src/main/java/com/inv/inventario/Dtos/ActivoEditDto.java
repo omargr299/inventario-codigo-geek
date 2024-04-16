@@ -9,11 +9,11 @@ public class ActivoEditDto {
     private String detalle;
     private String descripcion;
     private int ubicacion;
-    private String fechaRevisado;
+
     public ActivoEditDto() {
     }
     public ActivoEditDto(Integer idActivo, String nombre, float total, String fechaAdqui, String status, String detalle,
-            String descripcion, int ubicacion, String fechaRevisado) {
+            String descripcion, int ubicacion) {
         this.idActivo = idActivo;
         this.nombre = nombre;
         this.total = total;
@@ -22,7 +22,6 @@ public class ActivoEditDto {
         this.detalle = detalle;
         this.descripcion = descripcion;
         this.ubicacion = ubicacion;
-        this.fechaRevisado = fechaRevisado;
     }
     public Integer getIdActivo() {
         return idActivo;
@@ -71,12 +70,6 @@ public class ActivoEditDto {
     }
     public void setUbicacion(int ubicacion) {
         this.ubicacion = ubicacion;
-    }
-    public String getFechaRevisado() {
-        return fechaRevisado;
-    }
-    public void setFechaRevisado(String fechaRevisado) {
-        this.fechaRevisado = fechaRevisado;
     }
 
     

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
@@ -52,17 +53,22 @@ public class MainController {
         @RequestParam(name="fechaAdquiEnd", required = false, defaultValue = "") String fechaAdquiEnd,
         @RequestParam(name="ubicacion", required=false, defaultValue="0") int ubicacionLike,
         @RequestParam(name="status", required=false, defaultValue="") String StatusLike,
-        @RequestParam(name="error", required=false, defaultValue="0") String error,
+        @RequestParam(name="error", required=false, defaultValue="0") int error,
         Model model
-) { 
+) throws SQLException { 
         System.out.println("error: "+error);
         model.addAttribute("prev", 1);
         model.addAttribute("currentPage", 1);
         model.addAttribute("next", 1);
         model.addAttribute("pages", 1);
         model.addAttribute("error", error);
+        	
+        System.out.println(queryLike.equals("¿"));
+        if(queryLike.equals("¿")) {
+        	throw new SQLException();
+        	}
 
-        if (error!="0") return "index";
+        if (error!=0) return "index";
 
         if (page <= 0) return "redirect:/"+formatURL(queryLike,fechaAdquiStart,fechaAdquiEnd,ubicacionLike,StatusLike,1);
 
@@ -86,7 +92,7 @@ public class MainController {
         }
         catch (RangeDateException e){
             System.err.println(e.getMessage());
-            return "redirect:/?error=1";
+            return "redirect:/?error=2";
         }
 
         String paramsURL = formatURL(queryLike,fechaAdquiStart,fechaAdquiEnd,ubicacionLike,StatusLike,0);
@@ -98,7 +104,24 @@ public class MainController {
     }
 
     
-
-   
-
+    @ExceptionHandler(SQLException.class)
+    public String sqlerror( Model model) {
+    	System.out.println("sql");
+    	model.addAttribute("prev", 1);
+        model.addAttribute("currentPage", 1);
+        model.addAttribute("next", 1);
+        model.addAttribute("pages", 1);
+        model.addAttribute("error", 4);
+        return "redirect:/?error=1";
+    }
+    @ExceptionHandler(HibernateException.class)
+    public String hibernaterror(Model model) {
+    	System.out.println("sql");
+    	model.addAttribute("prev", 1);
+        model.addAttribute("currentPage", 1);
+        model.addAttribute("next", 1);
+        model.addAttribute("pages", 1);
+        model.addAttribute("error", 4);
+        return "redirect:/?error=1";
+    }
 }

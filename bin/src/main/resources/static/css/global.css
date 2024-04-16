@@ -1,0 +1,42 @@
+body{
+    padding: 20px 30px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+dialog{
+    border: none;
+    border-radius: 10px;
+    box-shadow: px 2px 5px rgba(0,0,0,0.5);
+}
+
+dialog > form  {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 1rem;
+}
+
+#filterForm {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    gap: 1rem;
+}
+
+#propietier > main{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2px;
+}
+
+.error{
+    color: red;
+    text-wrap: pretty;
+}

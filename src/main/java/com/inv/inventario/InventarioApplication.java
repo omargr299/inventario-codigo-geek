@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class InventarioApplication {
 
 	public static void main(String[] args) {
+		System.out.println(args);
 		SpringApplication.run(InventarioApplication.class, args);
 	}
 

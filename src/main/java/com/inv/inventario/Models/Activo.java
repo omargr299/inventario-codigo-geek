@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.yaml.snakeyaml.util.EnumUtils;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.inv.inventario.Enums.StatusValues;
 import com.inv.inventario.Exceptions.NameException;
 
@@ -13,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "Activo")
@@ -37,15 +39,17 @@ public class Activo {
     @ManyToOne
     @JoinColumn(name = "id_ubicacion",nullable = true)
     private Ubicacion ubicacion;
+
     @Column(name = "fecha_revisado", nullable = true)
     private Date fechaRevisado;
+    
 
 
     public Activo() {
     }
 
     public Activo(int idActivo, String nombre, float total, float iva, float valorDepreciado, Date fechaAdqui,
-        String status, String detalle, String descripcion, Ubicacion ubicacion, Date fechaRevisado) {
+        String status, String detalle, String descripcion, Ubicacion ubicacion, Date fecha_revisado) {
         this.IdActivo = idActivo;
         this.nombre = nombre;
         this.total = total;
@@ -56,7 +60,7 @@ public class Activo {
         this.detalle = detalle;
         this.descripcion = descripcion;
         this.ubicacion = ubicacion;
-        this.fechaRevisado = fechaRevisado;
+        this.fechaRevisado = fecha_revisado;
     }
 
     public int getIdActivo() {
@@ -150,9 +154,11 @@ public class Activo {
         return fechaRevisado;
     }
 
-    public void setFechaRevisado(Date fechaRevisado) {
-        this.fechaRevisado = fechaRevisado;
+    public void setFechaRevisado(Date fecha_revisado) {
+        this.fechaRevisado = fecha_revisado;
     }
+    
+
 
     public boolean isRemote (){
         return this.ubicacion!=null && this.ubicacion.getIdUbicacion() != 1 && this.ubicacion.getIdUbicacion() != 2;

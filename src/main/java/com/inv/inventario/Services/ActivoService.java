@@ -25,7 +25,26 @@ public class ActivoService {
 
     @Autowired
     UbicacionRepository ubicacionRepository;
-
+    
+    
+    Specification<Activo> getFilters(String queryLike,String fechaAdquiStart,String fechaAdquiEnd,int ubicacionLike, String statusLike){
+    	
+    	queryLike = queryLike.replace("%", "\\%");
+    	
+    	return Specification
+            .where(StringUtils.isEmptyOrWhitespaceOnly(queryLike) ? null : ActivoSpecification.queryLike(queryLike))
+            .and(
+                StringUtils.isEmptyOrWhitespaceOnly(fechaAdquiStart) 
+                && StringUtils.isEmptyOrWhitespaceOnly(fechaAdquiEnd)  
+                ? null 
+                : ActivoSpecification.fechaAdquiLike(fechaAdquiStart,fechaAdquiEnd)
+            )
+            .and(ubicacionLike == 0 || ubicacionLike > 2  ? null : ActivoSpecification.ubicacionLike(ubicacionLike))
+            .and(ubicacionLike <= 2 ? null : ActivoSpecification.remoteLike(ubicacionLike))
+            .and(StringUtils.isEmptyOrWhitespaceOnly(statusLike) ? null : ActivoSpecification.status(statusLike));
+    		
+	}
+    
     public List<Activo> getAll(){
         return (List<Activo>) activoRepository.findAll();
     }
@@ -35,43 +54,22 @@ public class ActivoService {
     }
 
     public int getCount(String queryLike,String fechaAdquiStart,String fechaAdquiEnd,int ubicacionLike, String statusLike){
-        Specification<Activo> filters = Specification
-        .where(StringUtils.isEmptyOrWhitespaceOnly(queryLike) ? null : ActivoSpecification.queryLike(queryLike))
-        .and(
-            StringUtils.isEmptyOrWhitespaceOnly(fechaAdquiStart) && StringUtils.isEmptyOrWhitespaceOnly(fechaAdquiEnd)  ? 
-            null : 
-            ActivoSpecification.fechaAdquiLike(fechaAdquiStart,fechaAdquiEnd)
-        )
-        .and(ubicacionLike == 0 ? null : ActivoSpecification.ubicacionLike(ubicacionLike))
-        .and(ubicacionLike <= 2 ? null : ActivoSpecification.remoteLike(ubicacionLike))
-        .and(StringUtils.isEmptyOrWhitespaceOnly(statusLike) ? null : ActivoSpecification.status(statusLike));
-        
+        Specification<Activo> filters = getFilters(queryLike, fechaAdquiStart, fechaAdquiEnd, ubicacionLike, statusLike);
         return (int) activoRepository.count(filters);
     }
 
     public Page<Activo> getAll(String queryLike,String fechaAdquiStart,String fechaAdquiEnd,int ubicacionLike, String statusLike,int page){
-        Specification<Activo> filters = Specification
-        .where(StringUtils.isEmptyOrWhitespaceOnly(queryLike) ? null : ActivoSpecification.queryLike(queryLike))
-        .and(
-            StringUtils.isEmptyOrWhitespaceOnly(fechaAdquiStart) 
-            && StringUtils.isEmptyOrWhitespaceOnly(fechaAdquiEnd)  
-            ? null 
-            : ActivoSpecification.fechaAdquiLike(fechaAdquiStart,fechaAdquiEnd)
-        )
-        .and(ubicacionLike == 0 ? null : ActivoSpecification.ubicacionLike(ubicacionLike))
-        .and(ubicacionLike <= 2 ? null : ActivoSpecification.remoteLike(ubicacionLike))
-        .and(StringUtils.isEmptyOrWhitespaceOnly(statusLike) ? null : ActivoSpecification.status(statusLike));
-        
-        return (Page<Activo>) activoRepository.findAll(filters,PageRequest.of(page-1,4));
+    	Specification<Activo> filters = getFilters(queryLike, fechaAdquiStart, fechaAdquiEnd, ubicacionLike, statusLike);
+        return (Page<Activo>) activoRepository.findAll(filters,PageRequest.of(page-1,4,Sort.by(Sort.Direction.DESC,"fechaRevisado")));
     }
 
     public Optional<Activo> getById(int id){
         return activoRepository.findById(id);
     }
 
-    public void create(Activo activo){
+    public Activo create(Activo activo){
         if (activo == null) throw new IllegalArgumentException("Activo no puede ser nulo");
-            activoRepository.save(activo);
+            return activoRepository.save(activo);
     }
 
     public void delete(int id){

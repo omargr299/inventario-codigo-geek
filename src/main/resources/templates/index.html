@@ -44,9 +44,10 @@
                     Hasta:
                     <input  class="form-control" type="date" name="fechaAdquiEnd" placeholder="Fecha de adquisición final">    
                 </label>
-                <span th:if="${error}==1" class="error">
+                <span th:if="${error}==2" class="error">
                     La fecha de inicio debe ser menor a la fecha final
                 </span>
+
             </div>
             <label class="form-label">
                 Ubicación
@@ -56,7 +57,7 @@
                     <option value="2">CDMX</option>
                     <option value="3">USO REMOTO</option>
                 </select>
-                <span th:if="${error}==2" class="error">
+                <span th:if="${error}==3" class="error">
                     Ubicacion invalida
                 </span>
             </label>
@@ -64,12 +65,12 @@
                 Esatdo del activo
                 <select  class="form-select" name="status" id="status">
                     <option value="" selected></option>
-                    <option value="en uso">En uso</option>
+                    <option value="en_uso">En uso</option>
                     <option value="descompuesto">Descompuesto</option>
                     <option value="almacenado">Almacenado</option>
-                    <option value="no encontrado">No Encontrado</option>
+                    <option value="no_encontrado">No Encontrado</option>
                 </select>
-                <span th:if="${error}==3" class="error">
+                <span th:if="${error}==4" class="error">
                     Estado invalido
                 </span>
             </label>
@@ -122,9 +123,13 @@
                         <button class="delete btn btn-outline-danger" >Eliminar</button>
                     </td>
                 </tr>
-                <tr th:if="!${activos} or ${activos.getContent().size()}&lt;1">
+                <tr th:if="${error}==1">
+                    <td id="no-data" colspan="10" class="text-center fw-light">Error en la base de datos</td>
+                </tr>
+                <tr th:if="(!${activos} or ${activos.getContent().size()}&lt;1) and ${error}!=1">
                     <td id="no-data" colspan="10" class="text-center fw-light">Sin activos encontrados</td>
                 </tr>
+                
             </tbody>
         </table>
 

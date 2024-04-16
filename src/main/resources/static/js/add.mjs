@@ -29,9 +29,9 @@ form.addEventListener('submit', async (event) => {
         console.log('con propietario');
         const ubicacion = await createUbicacion(formData);
         console.log(ubicacion);
-        await createPropietario(formData);
-        console.log(await createActivo(formData,ubicacion.idUbicacion));
-        await createAsociacion(formData);
+        const propietario = await createPropietario(formData);
+        const activo = await createActivo(formData,ubicacion.idUbicacion);
+        await createAsociacion(activo , propietario);
     }
     else{
         console.log('sin propietario');

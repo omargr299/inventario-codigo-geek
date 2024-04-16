@@ -53,7 +53,7 @@ public class PropietierController {
             return find.get();
         }
 
-       propietarioService.create(propietario);
+       propietario = propietarioService.create(propietario);
   
         return propietario;
     }

@@ -8,6 +8,7 @@ import org.w3c.dom.ranges.RangeException;
 import com.inv.inventario.Exceptions.RangeDateException;
 import com.inv.inventario.Models.Activo;
 import com.inv.inventario.Models.Ubicacion;
+import com.mysql.cj.util.StringUtils;
 
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
@@ -29,11 +30,24 @@ public class ActivoSpecification {
 
     public static Specification<Activo> fechaAdquiLike(String fechaAdquiStart, String fechaAdquiEnd) {
         return (root, query, builder) -> {
+        	
+        	if (fechaAdquiEnd.equals("")) {
+        		Date fechaAdquiDateStart = Date.valueOf(fechaAdquiStart);
+        		 return builder.greaterThanOrEqualTo(root.get("fechaAdqui"),  fechaAdquiDateStart);
+            }
+        	
+            
+            if(fechaAdquiStart.equals("")) {
+            	Date fechaAdquiDateEnd = Date.valueOf(fechaAdquiEnd);
+            	return builder.lessThanOrEqualTo(root.get("fechaAdqui"),  fechaAdquiDateEnd);
+            }
+            
             Date fechaAdquiDateStart = Date.valueOf(fechaAdquiStart);
             Date fechaAdquiDateEnd = Date.valueOf(fechaAdquiEnd);
             if (fechaAdquiDateStart.after(fechaAdquiDateEnd)) {
                 throw new RangeDateException("La fecha de inicio debe ser menor a la fecha de fin");
             }
+            
             return builder.between(root.get("fechaAdqui"),  fechaAdquiDateStart, fechaAdquiDateEnd);
         };
     }
