@@ -80,16 +80,16 @@ public class ActivesController {
         activo.setUbicacion(ubicacion);
         activo.setFechaRevisado(new Date());
 
-        System.out.println("Activo: "+activo.getStatus());
         try{
-            activo = activoService.create(activo);   
+            activoService.create(activo);   
+            List<Activo> activos = activoService.getAll();
+            return activos.get(activos.size()-1);
         }
         catch(DataIntegrityViolationException e){
             System.out.println(e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El activo ya existe:id");
         }
     
-        return activo;
     }
 
     @GetMapping(value = "/{id}", consumes = "*/*", produces = "application/json")

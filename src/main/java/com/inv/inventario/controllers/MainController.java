@@ -98,6 +98,10 @@ public class MainController {
             System.err.println(e.getMessage());
             return "redirect:/?error=2";
         }
+        catch(IllegalArgumentException e){
+            System.err.println(e.getMessage());
+            return "redirect:/?error=5";
+        }
 
         String paramsURL = formatURL(queryLike,fechaAdquiStart,fechaAdquiEnd,ubicacionLike,StatusLike,0);
         model.addAttribute("prev", page-1);
@@ -115,7 +119,7 @@ public class MainController {
         model.addAttribute("currentPage", 1);
         model.addAttribute("next", 1);
         model.addAttribute("pages", 1);
-        model.addAttribute("error", 4);
+        model.addAttribute("error", 1);
         return "redirect:/?error=1";
     }
     @ExceptionHandler(HibernateException.class)
@@ -125,7 +129,7 @@ public class MainController {
         model.addAttribute("currentPage", 1);
         model.addAttribute("next", 1);
         model.addAttribute("pages", 1);
-        model.addAttribute("error", 4);
+        model.addAttribute("error", 1);
         return "redirect:/?error=1";
     }
 }

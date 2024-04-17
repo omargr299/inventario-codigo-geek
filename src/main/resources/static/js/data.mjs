@@ -15,7 +15,7 @@ function formatActivo(formData,ubicacion) {
 function formatPropietario(formData) {
     return {
         idPropietario: Number(formData.get('IdPropietario')),
-        nombre: formData.get('nombrePropietario'),
+        nombre: formData.get('nombre'),
         apellidoPaterno: formData.get('apellidoPaterno'),
         apellidoMaterno: formData.get('apellidoMaterno'),
     }
@@ -90,7 +90,7 @@ export async function createActivo(formData) {
 		}
     }
 
-    return res;
+    return res.json();
 }
 
 export async function createPropietario(formData) {
@@ -121,7 +121,7 @@ export async function createPropietario(formData) {
 		}
     }
 
-    return res;
+    return res.json();
  
 }
 
@@ -151,17 +151,16 @@ export async function createUbicacion(formData) {
         	errorToast(message);
 		}
     }           
-    return res;
+    return res.json();
 }
 
 export async function createAsociacion(activo,propietario) {
-
-
+    console.log(activo,propietario)
     const res = await fetch(window.location.pathname + 'asociacion', {
         method: 'POST',
         body: JSON.stringify({
-			idActivo: activo.idActivo,
-			idPropieatrio: propietario.idPropietario
+            idActivo: activo.idActivo,
+			idPropietario: propietario.idPropietario
 		}),
         headers: {
             'Content-Type': 'application/json'

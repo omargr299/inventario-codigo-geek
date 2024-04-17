@@ -22,7 +22,7 @@ public class ActivoSpecification {
 
     public static Specification<Activo> queryLike(String _query) {
         
-    	if (_query.equals("%")) {
+    	if (_query.contains("%")) {
             throw new IllegalArgumentException("Caracter no valido");
         }
         return (root, query, builder) -> {

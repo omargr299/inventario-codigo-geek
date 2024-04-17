@@ -1,7 +1,9 @@
 package com.inv.inventario.controllers;
 
 
+import java.util.List;
 import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -71,7 +73,8 @@ public class PropietierController {
         }
 
        propietario = propietarioService.create(propietario);
+       List<Propietario> propietarios = propietarioService.getAll();
   
-        return propietario;
+        return propietarios.get(propietarios.size()-1);
     }
 }

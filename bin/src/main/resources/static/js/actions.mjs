@@ -30,11 +30,12 @@ activos.forEach(activo => {
         dialog.querySelector('#IdActivo').value = activo.idActivo;
         dialog.querySelector('#nombre').value = activo.nombre;
         dialog.querySelector('#total').value = activo.total;
-        // dialog.querySelector('#descripcion').value = activo.descripcion;
+        dialog.querySelector('#descripcion').value = activo.descripcion;
+        dialog.querySelector('#detalle').value = activo.detalle;
         dialog.querySelector('#fechaAdqui').value = activo.fechaAdqui.substring(0, 10);
         dialog.querySelector('#ubicacion').value = activo.ubicacion.idUbicacion;
         dialog.querySelector('#status').value = activo.status;
-        dialog.querySelector('#fechaRevisado').value = activo.fechaRevisado.substring(0, 10);
+
      
         if(activo.ubicacion.idUbicacion >= 3) {
             document.querySelector('#editForm #propietier-container').classList.remove('d-none');

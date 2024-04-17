@@ -32,7 +32,8 @@ public class AssociationController {
     
     @PostMapping(value="", consumes = "*/*", produces = "application/json")
     public void asscociate(@RequestBody Association associateDto){
-        
+        System.out.println(associateDto.getIdActivo());
+        System.out.println(associateDto.getIdPropietario());
         associationService.create(associateDto);
     }
 
